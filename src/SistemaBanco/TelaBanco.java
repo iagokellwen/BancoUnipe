@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 
 public class TelaBanco {
 
+	protected static final String ContaPF = null;
 	private JFrame frame;
 	private JTextField tf_nome;
 	private JTextField tf_saldo;
@@ -146,7 +147,7 @@ public class TelaBanco {
 				String nome = tf_nome.getText();
 				conta.setNome(nome);
 
-				double saldo = Double.parseDouble(tf_saldo.getText());
+				float saldo = Float.parseFloat(tf_saldo.getText());
 				conta.setSaldo(saldo);
 
 				DefaultTableModel tab = (DefaultTableModel) table.getModel();
@@ -202,25 +203,44 @@ public class TelaBanco {
 		});
 		btnExcluir.setBounds(393, 395, 112, 23);
 		frame.getContentPane().add(btnExcluir);
+		
+		ContaPF pf = new ContaPF();
+		ContaPJ pj = new ContaPJ();
 
 		JButton btnDepositar = new JButton("Depositar");
 		btnDepositar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					
+					int linhaSelecionada = table.getSelectedRow(); // pegar a linha selecionada
+					String tipo = (String) table.getValueAt(linhaSelecionada, 2);
+					String valor = JOptionPane.showInputDialog(null, "Digite o valor do seu deposito: ");
+					double valorDeposito = Double.parseDouble(valor);
 
-				int linhaSelecionada = table.getSelectedRow(); // pegar a linha selecionada
-				String tipo = (String) table.getValueAt(linhaSelecionada, 2);
+					if (tipo == "Pessoa Juridica") {
+						String saldoAtual = (String) table.getValueAt(linhaSelecionada, 4);
+						pj.setSaldo(Float.parseFloat(saldoAtual));
+						table.setValueAt(pj.depositar(valorDeposito), linhaSelecionada, 4);
 
-				double valorDeposito = 10;
+					}
 
-				if (tipo == "Pessoa Juridica") {
-					Conta pj = new ContaPJ();
-					table.setValueAt(conta.depositar(valorDeposito), linhaSelecionada, 4);
+					if (tipo == "Pessoa Física") {
+						String saldoAtual = (String) table.getValueAt(linhaSelecionada, 4);
+						pf.setSaldo(Float.parseFloat(saldoAtual));
+						table.setValueAt(pf.depositar(valorDeposito), linhaSelecionada, 4);
+
+					}
+					
+				} catch (Exception e2) {
+					// TODO: handle exception
+					
+					System.out.println(e2);
 				}
 
-				if (tipo == "Pessoa Física") {
-					Conta pf = new ContaPF();
-					table.setValueAt(pf.depositar(valorDeposito), linhaSelecionada, 4);
-				}
+				
+
+				
 
 			}
 		});

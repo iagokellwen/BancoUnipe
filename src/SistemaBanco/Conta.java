@@ -6,16 +6,8 @@ public class Conta {
 	private int conta;
 	private String tipoConta;
 	private String nome;
-	private double saldo;
-	private double deposito;
-
-	public double getDeposito() {
-		return deposito;
-	}
-
-	public void setDeposito(double deposito) {
-		this.deposito = deposito;
-	}
+	private float saldo;
+	
 
 	public int getAgencia() {
 		return agencia;
@@ -49,20 +41,12 @@ public class Conta {
 		this.nome = nome;
 	}
 
-	public double getSaldo() {
+	public float getSaldo() {
 		return saldo;
 	}
 
-	public void setSaldo(double saldo) {
+	public void setSaldo(float saldo) {
 		this.saldo = saldo;
-	}
-
-	public double depositar(double deposito) {
-
-		setSaldo(getSaldo() + (deposito));
-
-		return getSaldo();
-
 	}
 
 //public double sacar(double saque) {
